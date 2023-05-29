@@ -1,0 +1,48 @@
+# Create the external table emp using hive
+hive>create external table empdata2 ( ename string, esal int)
+row format delimited fields terminated by "," stored as textfile location
+"/home/hduser/Desktop/empdata2";
+hive>load data local inpath '/home/hduser/Desktop/empdb.txt' into table empdata2;
+
+> SELECT eno, ename, empno, empgrade
+> FROM empdbnew JOIN empinfo ON eno = empno;
+
+CREATE INDEX hbasefltnew_index
+ON TABLE hbase_flight_new (delay)
+AS 'org.apache.hadoop.hive.ql.index.compact.CompactIndexHandler'
+WITH DEFERRED REBUILD;
+SHOW INDEX ON hbase_flight_new;
+
+select sum(quantity*price) from orders join item on itemid=iid group by oid order by oid;
+drop 'customer'
+disable 'customer'
+//create 'customer','cust_id','cust_info'
+create 'customer','cust_info'
+put 'customer',1,'cust_info:name','abc'
+put 'customer',1,'cust_info:id',20
+scan 'customer'
+list
+CREATE external TABLE hbase_flight_new(fno int, fsource string,fdest string,fsh_at string,fsh_dt 
+string,fsch_delay
+string,delay int)
+STORED BY 'org.apache.hadoop.hive.hbase.HBaseStorageHandler'
+WITH SERDEPROPERTIES ("hbase.columns.mapping" =
+":key,finfo:source,finfo:dest,fsch:at,fsch:dt,fsch:delay,delay:dl")
+TBLPROPERTIES ("hbase.table.name" = "flight")
+CREATE external TABLE hive_table_cust(id int, name string, cust_id int)STORED BY 'org.apache.hadoop.hive.hbase.HBaseStorageHandler'WITH SERDEPROPERTIES ("hbase.columns.mapping" = ":key,cust_info:name,cust_info:cust_id")TBLPROPERTIES ("hbase.table.name" = "customer");
+
+
+flight
+create 'flight','finfo','fsch','delay'
+
+put 'flight',1,'finfo:source','pune'
+put 'flight',1,'finfo:destination','mumbai'
+put 'flight',1,'fsch:at','10.25'
+put 'flight',1,'fsch:dt','11.25'
+put 'flight',1,'fsch:delay','5min'
+put 'flight',1,'delay:dl',5
+adding column
+alter 'flight',NAME=>'revenue'
+put 'flight',4,'revenue:rs','45000'
+alter 'flight',NAME=>'revenue',METHOD=>'delete'
+get 'flight',1
