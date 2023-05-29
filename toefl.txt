@@ -1,0 +1,82 @@
+df1 = df.rename(columns={'Chance of Admit ': 'Chance of Admit'})
+lower_bound = 0.8
+upper_bound = 1
+
+mask = (df1['Chance of Admit'] >= lower_bound) & (df1['Chance of Admit'] <= upper_bound)
+subset1 = df1.loc[mask, :]
+subset1
+lower_bound = 0.4
+upper_bound = 0.8
+
+mask = (df1['Chance of Admit'] >= lower_bound) & (df1['Chance of Admit'] < upper_bound)
+subset2 = df1.loc[mask, :]
+subset2
+# lower_bound = 0.8
+upper_bound = 0.4
+
+mask = (df1['Chance of Admit'] <= upper_bound)
+subset3 = df1.loc[mask, :]
+subset3
+for rows in subset1['Chance of Admit'].values:
+    subset1.replace(rows, 'Admitted', inplace =True)
+subset1
+for rows in subset2['Chance of Admit'].values:
+    subset2.replace(rows, 'Might get Aadmitted', inplace =True)
+subset2
+for rows in subset3['Chance of Admit'].values:
+    subset3.replace(rows, 'Not Aadmitted', inplace =True)
+subset3
+merge = pd.concat([subset1, subset2, subset3], axis=0)
+merge
+melt = sort.melt(id_vars=['Serial No.', 'University Rating', 'SOP',
+       'LOR ', 'CGPA', 'Research', 'Chance of Admit' ], var_name="exams", value_name="score")
+melt
+select_df = pd.DataFrame(df1, columns = ['GRE Score', 'TOEFL Score', 'CGPA', 'Chance of Admit'])
+select_df
+correleation = select_df.corr()
+sns.heatmap(correleation, annot=True)
+plt.title('Correlation of Continupus Values')
+plt.show()
+X = df1[['CGPA']].values
+y = df1['Chance of Admit']
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X,y, test_size=0.25, random_state=123)
+from sklearn.linear_model import LinearRegression
+lr = LinearRegression()
+lr.fit(X_train, y_train)
+y_pred = lr.predict(X_test)
+from sklearn import metrics 
+mse = metrics.mean_squared_error(y_test, y_pred)
+rmse = np.sqrt(mse)
+print('Mean Square Error: ', mse)
+print('Rmse: ', rmse)
+
+plt.scatter(X_test, y_test, color="blue", label="Data")
+plt.plot(X_test, y_pred, color="red", label="regression line")
+
+plt.xlabel('CGPA')
+plt.ylabel('Chance of Admit')
+plt.legend()
+
+plt.show()
+plt.hist(df1['Chance of Admit'])
+plt.bar(['Not Researched', 'Researched'], df1['Research'].value_counts().values)
+plt.xlabel('Status')
+plt.ylabel('Count')
+plt.title('Bar plot')
+plt.show()
+X = 'CGPA'
+Y = 'Chance of Admit'
+df_sorted = df1.sort_values(X)
+# df_sorte = df1.sort_values(Y)
+plt.plot(df_sorted[X], df_sorted[Y])
+plt.xlabel('CGPA')
+plt.ylabel('Chance of Admit')
+plt.title('Line chart')
+plt.show()
+plt.scatter(df1['GRE Score'], df1['TOEFL Score'], c=df1['Chance of Admit'])
+plt.xlabel('GRE Score')
+plt.ylabel('TOEFL Score')
+plt.colorbar(label='Chance of Admit')
+
+plt.show()

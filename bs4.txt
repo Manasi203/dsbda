@@ -1,0 +1,19 @@
+import requests
+import bs4
+!pip install bs4
+request1=requests.get('')
+request1
+request1.content
+soup=bs4.BeautifulSoup(request1.text)
+reviews
+
+cust1=soup.findAll('p',{'class':'_2sc7ZR _2V5EHH'})
+cust=[]
+for i in range(0,len(cust1)):
+  cust.append(cust1[i].get_text())
+cust
+ratings1=soup.findAll('div',{'class':'_3LWZlK _1BLPMq'})
+reviews1=soup.findAll('div',{'class':'t-ZTKy'});
+import pandas as pd
+df=pd.DataFrame()
+df['cust']=cust[:5]
